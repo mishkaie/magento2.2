@@ -1,5 +1,4 @@
 <?php
-
 namespace Dev\ProductComments\Setup;
 
 use Magento\Catalog\Model\Product;
@@ -9,23 +8,19 @@ use Magento\Framework\Setup\InstallDataInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
 
-
-
 class InstallData implements InstallDataInterface
 {
-
     private $eavSetupFactory;
 
-    public function __construct (EavSetupFactory $eavSetupFactory)
+    public function __construct(EavSetupFactory $eavSetupFactory)
     {
         $this->eavSetupFactory = $eavSetupFactory;
     }
 
-
-    public function install (ModuleDataSetupInterface $setup, ModuleContextInterface $context)
+    public function install(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
     {
-        $eavSetup = $this->eavSetupFactory->create ();
-        $eavSetup->addAttribute (
+        $eavSetup = $this->eavSetupFactory->create();
+        $eavSetup->addAttribute(
             Product::ENTITY,
             'product_comments',
             [
@@ -48,4 +43,3 @@ class InstallData implements InstallDataInterface
         );
     }
 }
-
