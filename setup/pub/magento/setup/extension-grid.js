@@ -50,35 +50,35 @@ angular.module('extension-grid', ['ngStorage'])
 
             $scope.reset = function () {
                 authService.reset({
-                    success: function() {
+                    success: function () {
                         $scope.logout = true;
                         authService.checkMarketplaceAuthorized();
                     }
                 })
             };
 
-            $scope.isActiveActionsCell = function(extension) {
+            $scope.isActiveActionsCell = function (extension) {
                 return $scope.selectedExtension === extension;
             };
 
-            $scope.toggleActiveActionsCell = function(extension) {
+            $scope.toggleActiveActionsCell = function (extension) {
                 $scope.selectedExtension = $scope.selectedExtension == extension ? null : extension;
             };
 
-            $scope.closeActiveActionsCell = function(extension) {
+            $scope.closeActiveActionsCell = function (extension) {
                 $scope.toggleActiveActionsCell(extension);
             };
 
             $scope.predicate = 'name';
             $scope.reverse = false;
-            $scope.order = function(predicate) {
+            $scope.order = function (predicate) {
                 $scope.reverse = $scope.predicate === predicate ? !$scope.reverse : false;
                 $scope.predicate = predicate;
             };
 
-            $scope.sync = function() {
+            $scope.sync = function () {
                 $scope.isHiddenSpinner = false;
-                $http.get('index.php/extensionGrid/sync').success(function(data) {
+                $http.get('index.php/extensionGrid/sync').success(function (data) {
                     if (typeof data.lastSyncData.lastSyncDate !== 'undefined') {
                         $scope.lastSyncDate = data.lastSyncData.lastSyncDate.date;
                         $scope.lastSyncTime = data.lastSyncData.lastSyncDate.time;
@@ -96,7 +96,7 @@ angular.module('extension-grid', ['ngStorage'])
                     $scope.isOutOfSync = false;
                 });
             };
-            $scope.isAvailableUpdatePackage = function(packageName) {
+            $scope.isAvailableUpdatePackage = function (packageName) {
                 $localStorage.isMarketplaceAuthorized = typeof $localStorage.isMarketplaceAuthorized !== 'undefined' ? $localStorage.isMarketplaceAuthorized : false;
                 var isAvailable = typeof $scope.availableUpdatePackages !== 'undefined'
                     && $localStorage.isMarketplaceAuthorized
@@ -122,22 +122,22 @@ angular.module('extension-grid', ['ngStorage'])
                 }
             };
 
-            $scope.update = function(extension) {
+            $scope.update = function (extension) {
                 $localStorage.packages = [
                     {
                         name: extension.name,
                         version: $scope.availableUpdatePackages[extension.name]['latestVersion']
-                    }
+                }
                 ];
                 titleService.setTitle('update', extension);
                 $state.go('root.readiness-check-update');
             };
 
-            $scope.uninstall = function(extension) {
+            $scope.uninstall = function (extension) {
                 $localStorage.packages = [
                     {
                         name: extension.name
-                    }
+                }
                 ];
                 titleService.setTitle('uninstall', extension);
                 $localStorage.componentType = extension.type;
