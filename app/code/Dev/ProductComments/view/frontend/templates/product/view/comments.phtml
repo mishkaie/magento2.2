@@ -1,0 +1,57 @@
+<?php
+/**
+ * @var $block Dev\ProductComments\Block\Comments
+ */
+$currentProduct = $block->getCurrentProduct();
+$productId = (int) $currentProduct->getId();
+$commentsAvailable = $currentProduct->getData('product_comments');
+$comments = $block->getCommentCollection($productId);
+?>
+
+<?php foreach ($comments as $comment) : ?>
+
+    <div>
+        <h3><?php echo $comment->getData('email') ?></h3>
+        <p><?php echo $comment->getData('comment') ?></p>
+    </div>
+
+<?php endforeach; ?>
+
+<?php if($commentsAvailable === 'yes') : ?>
+    <div class="block review-add">
+        <div class="block-title"><strong>Write Your Comment</strong></div>
+        <div class="block-content">
+            <form action="<?=$block->getUrl('commentvisibility/index/sendComment')?>" class="review-form" method="post" id="comment-form" data-mage-init='{"validation":{}}'>
+                <fieldset class="fieldset">
+
+                    <div class="field required">
+                        <label for="email_address" class="label"><span><?php echo __('Email') ?></span></label>
+                        <div class="control">
+                            <input type="email" name="email" id="email_address" value="" title="<?php echo __('Email') ?>" class="input-text" data-validate="{required:true, 'validate-email':true}">
+                        </div>
+                    </div>
+
+
+                    <div class="field review-field-text required">
+                        <label for="comment_field" class="label"><span>Comment</span></label>
+                        <div class="control">
+                            <textarea name="comment" id="comment_field" cols="5" rows="3" data-validate="{required:true}"></textarea>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="product_id" name="productId" value="<?php echo $productId ?>">
+
+                </fieldset>
+                <div class="actions-toolbar review-form-actions">
+                    <div class="primary actions-primary">
+                        <button type="submit" class="action submit primary" title="<?php  echo __('Submit') ?>"><span><span><?php echo __('Submit') ?></span></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+<?php else : ?>
+    <item name="label" xsi:type="string" translate="true">Comments Disabled</item>
+<?php endif; ?>
+
