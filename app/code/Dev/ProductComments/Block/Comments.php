@@ -24,7 +24,7 @@ class Comments extends Template
     {
         return $this->registry->registry('current_product');
     }
-    public function getCommentCollection($productId)
+    public function getCommentCollection($productId): array
     {
         $comment = $this->commentFactory->create();
         $collection = $comment->getCollection()

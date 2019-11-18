@@ -1,6 +1,7 @@
 <?php
 namespace Dev\ProductComments\Controller\Adminhtml\Comment;
 
+use Exception;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 use Dev\ProductComments\Model\Comment;
@@ -32,7 +33,7 @@ class SaveComment extends Action
         if ($data) {
             $id = $this->getRequest()->getParam('comment_id');
             $model = $this->commentModel->load($id);
-            if (!$model->getId() && $id) {
+            if (!$model->getId()) {
                 $this->messageManager->addErrorMessage(__('This Comment no longer exists.'));
                 return $resultRedirect->setPath('*/*/');
             }
@@ -45,7 +46,7 @@ class SaveComment extends Action
                     return $resultRedirect->setPath('*/*/edit', ['comment_id' => $model->getId()]);
                 }
                 return $resultRedirect->setPath('*/*/');
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->messageManager->addExceptionMessage($e, __('Something went wrong while saving the comment.'));
             }
             $this->dataPersistor->set('product_comments', $data);

@@ -15,7 +15,7 @@ class Collection extends AbstractCollection
      *
      * @return void
      */
-    protected function _construct()
+    public function _construct()
     {
         $this->_init(Comment::class, ResourceModel::class);
     }

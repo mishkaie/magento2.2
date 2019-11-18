@@ -14,10 +14,7 @@ abstract class Comment extends Action
      * @see _isAllowed()
      */
     public const ADMIN_RESOURCE = 'Dev_ProductComments::top_level';
-
-
     protected $_coreRegistry;
-
     /**
      * @param Context $context
      * @param Registry $_coreRegistry
@@ -37,7 +34,7 @@ abstract class Comment extends Action
      * @return Page
      */
 
-    public function initPage($resultPage)
+    public function initPage($resultPage): Page
     {
     /** @var Page $resultPage */
         $resultPage->setActiveMenu(self::ADMIN_RESOURCE)

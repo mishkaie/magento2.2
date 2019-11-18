@@ -8,6 +8,7 @@ use Magento\Framework\App\Action\Context;
 use Magento\Framework\Controller\ResultFactory;
 use Exception;
 use Zend_Validate;
+use Zend_Validate_Exception;
 
 class SendComment extends Action
 {
@@ -42,25 +43,28 @@ class SendComment extends Action
                 $this->messageManager->addErrorMessage('Email is necessary');
                 $resultRedirect->setUrl($this->_redirect->getRefererUrl());
                 return $resultRedirect;
-            } elseif (!Zend_Validate::is($comment, 'NotEmpty')) {
+            }
+
+            if (!Zend_Validate::is($comment, 'NotEmpty')) {
                 $this->messageManager->addErrorMessage('Comment is necessary');
                 $resultRedirect->setUrl($this->_redirect->getRefererUrl());
                 return $resultRedirect;
-            } else {
-                $this->commentModel
-                ->setData('product_id', $productId)
-                ->setData('email', $email)
-                ->setData('comment', $comment);
-                try {
-                    $this->resourceModel->save($this->commentModel);
-                } catch (Exception $e) {
-                }
-                $this->messageManager->addSuccessMessage('comment request has been sent');
-                $this->_eventManager->dispatch('comment_sent', ['email'=>$email,'comment'=>$comment]);
-                $resultRedirect->setUrl($this->_redirect->getRefererUrl());
-                return $resultRedirect;
             }
-        } catch (\Zend_Validate_Exception $e) {
+
+            $this->commentModel
+            ->setData('product_id', $productId)
+            ->setData('email', $email)
+            ->setData('comment', $comment);
+            try {
+                $this->resourceModel->save($this->commentModel);
+            } catch (Exception $e) {
+            }
+            $this->messageManager->addSuccessMessage('comment request has been sent');
+            $this->_eventManager->dispatch('comment_sent', ['email'=>$email,'comment'=>$comment]);
+            $resultRedirect->setUrl($this->_redirect->getRefererUrl());
+            return $resultRedirect;
+        } catch (Zend_Validate_Exception $e) {
         }
+        return null;
     }
 }

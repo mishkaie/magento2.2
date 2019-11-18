@@ -19,7 +19,7 @@ class ProductName extends Column
         parent::__construct($context, $uiComponentFactory, $components, $data);
         $this->product = $product;
     }
-    public function getProductName($productId)
+    public function getProductName($productId): string
     {
         return $this->product->load($productId)->getName();
     }

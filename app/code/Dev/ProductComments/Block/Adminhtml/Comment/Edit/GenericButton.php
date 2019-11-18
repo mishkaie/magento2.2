@@ -40,7 +40,7 @@ class GenericButton
      *
      * @return int|null
      */
-    public function getId()
+    public function getId(): ?int
     {
         $comment = $this->registry->registry('comment');
         return $comment ? $comment->getId() : null;
@@ -53,7 +53,7 @@ class GenericButton
      * @param   array $params
      * @return  string
      */
-    public function getUrl($route = '', $params = [])
+    public function getUrl($route = '', $params = []): string
     {
         return $this->urlBuilder->getUrl($route, $params);
     }

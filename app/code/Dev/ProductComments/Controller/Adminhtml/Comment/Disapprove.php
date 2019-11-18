@@ -6,6 +6,7 @@ namespace Dev\ProductComments\Controller\Adminhtml\Comment;
 use Magento\Backend\App\Action;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Backend\App\Action\Context;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Ui\Component\MassAction\Filter;
 use Dev\ProductComments\Model\ResourceModel\Comment\CollectionFactory;
 
@@ -25,7 +26,10 @@ class Disapprove extends Action
     }
     public function execute()
     {
-        $collection = $this->filter->getCollection($this->collectionFactory->create());
+        try {
+            $collection = $this->filter->getCollection($this->collectionFactory->create());
+        } catch (LocalizedException $e) {
+        }
 
         foreach ($collection as $item) {
             $item->setstatus('Dissaproved');

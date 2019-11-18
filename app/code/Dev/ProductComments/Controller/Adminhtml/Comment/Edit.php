@@ -5,6 +5,7 @@ namespace Dev\ProductComments\Controller\Adminhtml\Comment;
 
 use Magento\Backend\App\Action\Context;
 use Dev\ProductComments\Controller\Adminhtml\Comment as CommentController;
+use Magento\Backend\Model\View\Result\Redirect;
 use Magento\Framework\Registry;
 use Magento\Framework\View\Result\PageFactory;
 use Dev\ProductComments\Model\Comment;
@@ -30,12 +31,8 @@ class Edit extends CommentController
         $this->resultPageFactory = $resultPageFactory;
         $this->commentModel=$commentModel;
     }
-
-
-
     public function execute()
     {
-    
         $id = $this->getRequest()->getParam('comment_id');
         $model = $this->commentModel;
 
@@ -43,14 +40,12 @@ class Edit extends CommentController
             $model->load($id);
             if (!$model->getId()) {
                 $this->messageManager->addErrorMessage(__('This comment no longer exists.'));
-                /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
+                /** @var Redirect $resultRedirect */
                 $resultRedirect = $this->resultRedirectFactory->create();
                 return $resultRedirect->setPath('*/*/');
             }
         }
-
         $this->_coreRegistry->register('product_comments', $model);
-
         $resultPage = $this->resultPageFactory->create();
         $this->initPage($resultPage)->addBreadcrumb(
             $id ? __('Edit Comment') : __('New Comment'),

@@ -5,10 +5,9 @@ use Dev\ProductComments\Model\Comment;
 use Dev\ProductComments\Model\ResourceModel\Comment as ResourceComment;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
-use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\Exception\AlreadyExistsException;
 use Magento\Framework\View\Result\PageFactory;
-use Exception;
 
 class NewAction extends Action
 {
@@ -42,16 +41,20 @@ class NewAction extends Action
         $this->resultPageFactory = $resultPageFactory;
         $this->resourceModel = $resourceModel;
     }
-    /**
-     * @return ResultInterface
-     * @throws Exception
-     */
+
+
     public function execute()
     {
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
         $commentDatas = $this->getRequest()->getParam('comment_id');
         if (is_array($commentDatas)) {
-            $this->commentModel->setData($this->resourceModel->save($commentDatas));
+            try {
+                try {
+                    $this->commentModel->setData($this->resourceModel->save($commentDatas));
+                } catch (AlreadyExistsException $e) {
+                }
+            } catch (AlreadyExistsException $e) {
+            }
             return $resultRedirect->setPath('*/*/new');
         }
         return $this->resultPageFactory->create();

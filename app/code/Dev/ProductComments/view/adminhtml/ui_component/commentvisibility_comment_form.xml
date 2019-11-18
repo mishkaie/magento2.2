@@ -13,7 +13,7 @@
             <button name="save" class="Dev\ProductComments\Block\Adminhtml\Comment\Edit\Save"/>
             <button name="save_and_continue" class="Dev\ProductComments\Block\Adminhtml\Comment\Edit\SaveAndContinueButton"/>
             <button name="delete" class="Dev\ProductComments\Block\Adminhtml\Comment\Edit\Delete"/>
-            <button name="reset" class="Dev_ProductComments\Block\Adminhtml\Comment\Edit\ResetButton"/>
+            <button name="reset" class="Dev\ProductComments\Block\Adminhtml\Comment\Edit\ResetButton"/>
         </buttons>
         <namespace>commentvisibility_comment_form</namespace>
         <dataScope>data</dataScope>

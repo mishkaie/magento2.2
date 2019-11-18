@@ -1,12 +1,14 @@
 <?php
 namespace Dev\ProductComments\Setup;
 
+use Dev\ProductComments\Model\Attribute\Frontend\Comments;
 use Magento\Catalog\Model\Product;
 use Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface;
 use Magento\Eav\Setup\EavSetupFactory;
 use Magento\Framework\Setup\InstallDataInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
+use Dev\ProductComments\Model\Attribute\Source\Comments as SourceComment;
 
 class InstallData implements InstallDataInterface
 {
@@ -28,8 +30,8 @@ class InstallData implements InstallDataInterface
                 'type' => 'varchar',
                 'label' => 'Product Comments',
                 'input' => 'select',
-                'source' => \Dev\ProductComments\Model\Attribute\Source\Comments::class,
-                'frontend' => \Dev\ProductComments\Model\Attribute\Frontend\Comments::class,
+                'source' => SourceComment::class,
+                'frontend' => Comments::class,
                 'required' => false,
                 'sort_order' => 50,
                 'global' => ScopedAttributeInterface::SCOPE_GLOBAL,

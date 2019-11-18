@@ -2,6 +2,7 @@
 
 namespace Dev\ProductComments\Controller\Adminhtml\Comment;
 
+use Exception;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\Controller\Result\JsonFactory;
@@ -31,8 +32,6 @@ class InlineEdit extends Action
         $this->commentModel = $commentModel;
         $this->jsonFactory = $jsonFactory;
     }
-
-
     public function execute()
     {
         $resultJson = $this->jsonFactory->create();
@@ -50,7 +49,7 @@ class InlineEdit extends Action
                     try {
                         $model->setData(array_merge($model->getData(), $postItems[$modelid]));
                         $model->save();
-                    } catch (\Exception $e) {
+                    } catch (Exception $e) {
                         $messages[] = "[Mymodel ID: {$modelid}]  {$e->getMessage()}";
                         $error = true;
                     }

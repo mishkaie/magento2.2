@@ -1,6 +1,7 @@
 <?php
 namespace Dev\ProductComments\Controller\Observer;
 
+use Exception;
 use Magento\Framework\App\Area;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Mail\Template\TransportBuilder;
@@ -40,7 +41,7 @@ class EmailObserver implements ObserverInterface
                 ->getTransport();
         try {
             $transport->sendMessage();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
         }
         return $this;
     }

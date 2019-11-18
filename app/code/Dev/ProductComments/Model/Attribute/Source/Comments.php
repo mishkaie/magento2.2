@@ -11,8 +11,8 @@ class Comments extends AbstractSource
     {
         if (!$this->_options) {
             $this->_options = [
-                ["label" => ("Yes"), "value" => "yes"],
-                ["label" => ("No"), "value" => "no"]
+                ['label' => ('Yes'), 'value' => 'yes'],
+                ['label' => ('No'), 'value' => 'no']
             ];
         }
         return $this->_options;

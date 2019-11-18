@@ -2,6 +2,7 @@
 namespace Dev\ProductComments\Controller\Adminhtml\Comment;
 
 use Dev\ProductComments\Model\Comment;
+use Exception;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\Controller\ResultFactory;
@@ -33,7 +34,7 @@ class Delete extends Action
         try {
             $contact->delete();
             $this->messageManager->addSuccessMessage(__('Your comment has been deleted !'));
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->messageManager->addErrorMessage(__('Error while trying to delete comment: '));
             return $resultRedirect->setUrl($this->_redirect->getRefererUrl());
         }
