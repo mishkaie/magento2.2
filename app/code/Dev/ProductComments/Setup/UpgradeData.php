@@ -17,6 +17,8 @@ namespace Dev\ProductComments\Setup {
     use Magento\Cms\Api\PageRepositoryInterface;
     use Magento\Cms\Model\ResourceModel\Page;
     use Magento\Framework\App\Config\ConfigResource\ConfigInterface;
+    use Magento\Theme\Model\Config;
+    use Magento\Theme\Model\ResourceModel\Theme\CollectionFactory;
 
     class UpgradeData implements UpgradeDataInterface
     {
@@ -55,6 +57,14 @@ namespace Dev\ProductComments\Setup {
          * @var ConfigInterface
          */
         private $resourceConfig;
+        /**
+         * @var CollectionFactory
+         */
+        private $collectionFactory;
+        /**
+         * @var Config
+         */
+        private $config;
 
         public function __construct(
             ConfigInterface $resourceConfig,
@@ -66,7 +76,9 @@ namespace Dev\ProductComments\Setup {
             Page $page,
             Website $website,
             Store $store,
-            StoreFactory $storeFactory
+            StoreFactory $storeFactory,
+            CollectionFactory $collectionFactory,
+            Config $config
         ) {
 
             $this->groupFactory = $groupFactory;
@@ -79,6 +91,8 @@ namespace Dev\ProductComments\Setup {
             $this->store = $store;
             $this->storeFactory = $storeFactory;
             $this->resourceConfig = $resourceConfig;
+            $this->collectionFactory = $collectionFactory;
+            $this->config = $config;
         }
 
         public function upgrade(ModuleDataSetupInterface $setup, ModuleContextInterface $context): void
@@ -87,6 +101,7 @@ namespace Dev\ProductComments\Setup {
             if (version_compare($context->getVersion(), '1.1.2') < 0) {
                 $this->addWidget();
                 $this->createWebsiteandStore();
+                $this->theme();
             }
             $setup->endSetup();
         }
@@ -171,8 +186,12 @@ namespace Dev\ProductComments\Setup {
             ];
 
             foreach ($configs as $config) {
-                $this->resourceConfig->saveConfig($config['path'], $config['value'], 'websites', $websiteId);
+                $this->resourceConfig->saveConfig($config['path'], $config['value'], 'websites', 2);
             }
+        }
+        public function theme(): void
+        {
+            $this->resourceConfig->saveConfig('design/theme/theme_id', 4, 'websites', 1);
         }
     }
 }
