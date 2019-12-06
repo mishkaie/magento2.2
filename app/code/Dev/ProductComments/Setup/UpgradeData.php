@@ -98,10 +98,11 @@ namespace Dev\ProductComments\Setup {
         public function upgrade(ModuleDataSetupInterface $setup, ModuleContextInterface $context): void
         {
             $setup->startSetup();
-            if (version_compare($context->getVersion(), '1.1.2') < 0) {
+            if (version_compare($context->getVersion(), '1.1.4') < 0) {
                 $this->addWidget();
                 $this->createWebsiteandStore();
                 $this->theme();
+                $this->newWebsite();
             }
             $setup->endSetup();
         }
@@ -156,7 +157,7 @@ namespace Dev\ProductComments\Setup {
             }
             $this->currencyAndLanguage($websiteId);
         }
-        public function currencyAndLanguage($websiteId) : void
+        public function currencyAndLanguage() : void
         {
             $configs=[
                 [
@@ -189,9 +190,26 @@ namespace Dev\ProductComments\Setup {
                 $this->resourceConfig->saveConfig($config['path'], $config['value'], 'websites', 2);
             }
         }
+        public function newWebsite()
+        {
+            $webSiteUrl = [
+            [
+                'path' => 'web/unsecure/base_url',
+                'value' => 'http://local.devall.ge/'
+            ],
+            [
+                'path' => 'web/unsecure/base_link_url',
+                'value' => 'http://local.devall.ge/'
+            ]
+            ];
+            foreach ($webSiteUrl as $webSite) {
+                $this->resourceConfig->saveConfig($webSite['path'], $webSite['value'], 'websites', 2);
+            }
+        }
+
         public function theme(): void
         {
-            $this->resourceConfig->saveConfig('design/theme/theme_id', 4, 'websites', 1);
+            $this->resourceConfig->saveConfig('design/theme/theme_id', 4, 'websites', 2);
         }
     }
 }
