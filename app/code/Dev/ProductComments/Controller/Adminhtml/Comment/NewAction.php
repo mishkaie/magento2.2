@@ -49,10 +49,7 @@ class NewAction extends Action
         $commentDatas = $this->getRequest()->getParam('comment_id');
         if (is_array($commentDatas)) {
             try {
-                try {
-                    $this->commentModel->setData($this->resourceModel->save($commentDatas));
-                } catch (AlreadyExistsException $e) {
-                }
+                $this->commentModel->setData($this->resourceModel->save($commentDatas));
             } catch (AlreadyExistsException $e) {
             }
             return $resultRedirect->setPath('*/*/new');

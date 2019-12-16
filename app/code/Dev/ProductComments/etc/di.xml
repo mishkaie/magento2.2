@@ -12,4 +12,11 @@
             <argument name="resourceModel" xsi:type="string">Dev\ProductComments\Model\ResourceModel\Comment</argument>
         </arguments>
     </virtualType>
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="products_export" xsi:type="object">Dev\ProductComments\Console\ExportCommand</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

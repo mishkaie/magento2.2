@@ -7,6 +7,6 @@ class Example extends Template
 {
     public function getContent() : string
     {
-        return 'something';
+        return 'Welcome in developers alliance! We are happy to have you on board!';
     }
 }

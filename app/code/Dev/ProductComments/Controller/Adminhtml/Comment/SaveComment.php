@@ -33,10 +33,7 @@ class SaveComment extends Action
         if ($data) {
             $id = $this->getRequest()->getParam('comment_id');
             $model = $this->commentModel->load($id);
-            if (!$model->getId()) {
-                $this->messageManager->addErrorMessage(__('This Comment no longer exists.'));
-                return $resultRedirect->setPath('*/*/');
-            }
+
             $model->setData($data);
             try {
                 $model->save();
