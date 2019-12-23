@@ -33,10 +33,6 @@ class ExportCommand extends Command
         $this->setName('products:export');
         $this->setDescription('Export products in csv file');
         parent::configure();
-        try {
-            $this->appState->setAreaCode('frontend');
-        } catch (LocalizedException $e) {
-        }
     }
     public function execute(InputInterface $input, OutputInterface $output)
     {
